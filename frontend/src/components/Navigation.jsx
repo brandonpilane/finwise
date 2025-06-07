@@ -29,7 +29,7 @@ const Navigation = ({ activeTab, onTabChange }) => {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex bg-white shadow-soft border-b border-slate-200 sticky top-0 z-40">
+      <nav className="hidden md:flex bg-white/30 backdrop-blur-xs backdrop-saturate-10 shadow-soft sticky top-0 z-40">
         <div className="max-w-7xl mx-auto w-full px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -57,7 +57,7 @@ const Navigation = ({ activeTab, onTabChange }) => {
                     "flex items-center gap-2 transition-all duration-200",
                     activeTab === item.id
                       ? "gradient-navy text-white shadow-md"
-                      : "text-slate-600 hover:text-navy-900 hover:bg-slate-100"
+                      : "text-slate-600 hover:text-navy-900 hover:text-black hover:cursor-pointer"
                   )}
                 >
                   <item.icon className="w-4 h-4" />
