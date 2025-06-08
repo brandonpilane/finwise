@@ -30,13 +30,18 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const user = {
+  firstname: "Brandon",
+  lastname: "Smith",
+};
+
 const spendingData = [
-  { name: "Food & Dining", value: 450, color: "#ef4444" },
-  { name: "Transportation", value: 320, color: "#f59e0b" },
-  { name: "Shopping", value: 280, color: "#8b5cf6" },
-  { name: "Entertainment", value: 180, color: "#06b6d4" },
-  { name: "Bills & Utilities", value: 620, color: "#1e3a8a" },
-  { name: "Other", value: 150, color: "#64748b" },
+  { name: "Food & Dining", value: 750, color: "#00f5bc" },
+  { name: "Transportation", value: 320, color: "#adffec" },
+  { name: "Shopping", value: 360, color: "#8da0a5" },
+  { name: "Entertainment", value: 180, color: "#00a37d" },
+  { name: "Bills & Utilities", value: 820, color: "#044e77" },
+  { name: "Other", value: 350, color: "#ff9b00" },
 ];
 
 const savingsGoals = [
@@ -73,12 +78,77 @@ const tips = [
 ];
 
 const Dashboard = () => {
-  // Removed type annotation for useState
   const [selectedGoal, setSelectedGoal] = useState(null);
 
   const totalSpending = spendingData.reduce((sum, item) => sum + item.value, 0);
-  const monthlyBudget = 2500;
+  const monthlyBudget = 4300;
   const budgetProgress = (totalSpending / monthlyBudget) * 100;
+
+  const calculateSmartScore = () => {
+    // Adjust weights based on leniency
+    const budgetWeight = 0.7 - 0.15; // gets less strict
+    const riskWeight = 0.2 - 0.15; // penalizes risky spend less
+    const savingsWeight = 0.1 + 0.1; // rewards savings more
+    const trendWeight = 0.5 + 0.2; // trend matters more leniently
+
+    // Budget Adherence
+    const budgetUsage = totalSpending / monthlyBudget;
+    const idealBuffer = 1 + 0.25; // tolerates 5% over at leniency 1
+    let budgetScore;
+    if (budgetUsage <= idealBuffer) {
+      budgetScore = 100 * (1 - budgetUsage / idealBuffer);
+    } else {
+      budgetScore = 80 - (budgetUsage - idealBuffer) * 100;
+    }
+    const budgetComponent =
+      Math.max(0, Math.min(budgetScore, 100)) * budgetWeight;
+
+    // Risky Spending Distribution
+    const riskCategories = ["Entertainment", "Shopping"];
+    const riskSpend = spendingData
+      .filter((d) => riskCategories.includes(d.name))
+      .reduce((sum, d) => sum + d.value, 0);
+    const riskRatio = riskSpend / totalSpending;
+    const distributionScore = (1 - riskRatio) * 100;
+    const distributionComponent = distributionScore * riskWeight;
+
+    // Savings Progress
+    const savingsProgress =
+      savingsGoals.reduce((sum, goal) => {
+        const ratio = goal.current / goal.target;
+        return sum + Math.min(1, ratio);
+      }, 0) / savingsGoals.length;
+    const savingsComponent = savingsProgress * 100 * savingsWeight;
+
+    // Spending Trend: weekly reduction is rewarded more leniently
+    const weekChange = weeklySpending[6].amount - weeklySpending[0].amount;
+    const trendRaw = weekChange < 0 ? 100 : Math.max(60, 100 - weekChange);
+    const trendComponent = trendRaw * trendWeight;
+
+    // Final Score
+    const totalScore =
+      budgetComponent +
+      distributionComponent +
+      savingsComponent +
+      trendComponent;
+
+    return Math.round(Math.min(100, Math.max(0, totalScore)));
+  };
+
+  const smartscore = calculateSmartScore();
+
+  const rankThresholds = [
+    { min: 90, label: "Outstanding" },
+    { min: 80, label: "Excellent" },
+    { min: 60, label: "Good" },
+    { min: 40, label: "Average" },
+    { min: 0, label: "Needs Improvement" },
+  ];
+
+  const smartscorerank = () => {
+    if (isNaN(smartscore)) return "N/A";
+    return rankThresholds.find(({ min }) => smartscore >= min)?.label || "N/A";
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-6">
@@ -87,7 +157,7 @@ const Dashboard = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-navy-900">
-              Good morning, Alex!
+              Good morning, {user.firstname}!
             </h1>
             <p className="text-slate-600 mt-1">
               Let's check your financial wellness today
@@ -118,10 +188,10 @@ const Dashboard = () => {
                     Monthly Spending
                   </p>
                   <p className="text-2xl font-bold text-navy-900">
-                    ${totalSpending.toLocaleString()}
+                    P{totalSpending.toLocaleString()}
                   </p>
                   <p className="text-xs text-slate-500 mt-1">
-                    of ${monthlyBudget.toLocaleString()} budget
+                    of P{monthlyBudget.toLocaleString()} budget
                   </p>
                 </div>
                 <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
@@ -175,8 +245,12 @@ const Dashboard = () => {
                   <p className="text-sm font-medium text-slate-600">
                     Smart Score
                   </p>
-                  <p className="text-2xl font-bold text-navy-900">85</p>
-                  <p className="text-xs text-blue-600 mt-1">Excellent</p>
+                  <p className="text-2xl font-bold text-navy-900">
+                    {smartscore}
+                  </p>
+                  <p className="text-xs text-blue-600 mt-1">
+                    {smartscorerank()}
+                  </p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                   <Award className="w-6 h-6 text-blue-600" />
@@ -222,7 +296,7 @@ const Dashboard = () => {
                     <div className="text-center">
                       <p className="text-sm text-slate-600">Total</p>
                       <p className="text-lg font-bold text-navy-900">
-                        ${totalSpending}
+                        P{totalSpending}
                       </p>
                     </div>
                   </div>
@@ -243,7 +317,7 @@ const Dashboard = () => {
                         </span>
                       </div>
                       <span className="font-medium text-navy-900">
-                        ${item.value}
+                        P{item.value}
                       </span>
                     </div>
                   ))}
@@ -260,21 +334,21 @@ const Dashboard = () => {
             <CardContent>
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={weeklySpending}>
-                  <XAxis dataKey="day" axisLine={false} tickLine={false} />
+                  <XAxis dataKey="day" axisLine={true} tickLine={false} />
                   <YAxis hide />
-                  <Bar dataKey="amount" fill="#1e3a8a" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="amount" fill="#ff9b00" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
               <div className="mt-4 text-center">
                 <p className="text-sm text-slate-600">Daily Average</p>
-                <p className="text-xl font-bold text-navy-900">$92</p>
+                <p className="text-xl font-bold text-navy-900">P92</p>
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Savings Goals */}
-        <Card className="shadow-soft">
+        <Card className="shadow-soft bg-neutral-300">
           <CardHeader>
             <CardTitle>Savings Goals</CardTitle>
           </CardHeader>
@@ -292,7 +366,7 @@ const Dashboard = () => {
                   <div
                     key={index}
                     className={cn(
-                      "p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer",
+                      "p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer bg-white",
                       selectedGoal === goal.name
                         ? "border-gold-400 bg-gold-50"
                         : "border-slate-200 hover:border-slate-300"
@@ -314,10 +388,10 @@ const Dashboard = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-600">
-                          ${goal.current.toLocaleString()}
+                          P{goal.current.toLocaleString()}
                         </span>
                         <span className="text-slate-900">
-                          ${goal.target.toLocaleString()}
+                          P{goal.target.toLocaleString()}
                         </span>
                       </div>
                       <Progress value={progress} className="h-2" />

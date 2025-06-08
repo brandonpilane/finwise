@@ -26,12 +26,18 @@ import {
 } from "lucide-react";
 
 const monthlyTrends = [
+  { month: "Jul", spending: 1463, budget: 2500 },
+  { month: "Aug", spending: 3000, budget: 2500 },
+  { month: "Sep", spending: 2800, budget: 2500 },
+  { month: "Oct", spending: 2100, budget: 2500 },
+  { month: "Nov", spending: 2240, budget: 2500 },
+  { month: "Dec", spending: 1788, budget: 2500 },
   { month: "Jan", spending: 2100, budget: 2500 },
   { month: "Feb", spending: 2350, budget: 2500 },
-  { month: "Mar", spending: 2650, budget: 2500 },
+  { month: "Mar", spending: 2950, budget: 2500 },
   { month: "Apr", spending: 2200, budget: 2500 },
   { month: "May", spending: 2000, budget: 2500 },
-  { month: "Jun", spending: 2400, budget: 2500 },
+  { month: "Jun", spending: 2570, budget: 2500 },
 ];
 
 const categoryTrends = [
@@ -86,7 +92,7 @@ const alerts = [
     amount: 180,
     budget: 150,
     severity: "medium",
-    message: "You've exceeded your entertainment budget by $30 this month.",
+    message: "You've exceeded your entertainment budget by P30 this month.",
   },
   {
     type: "unusual",
@@ -102,7 +108,7 @@ const alerts = [
     amount: 150,
     potential: 200,
     severity: "low",
-    message: "You could save an extra $50 by reducing dining out frequency.",
+    message: "You could save an extra P140 by reducing dining out frequency.",
   },
 ];
 
@@ -111,14 +117,14 @@ const insights = [
     title: "Peak Spending Days",
     description:
       "You tend to spend most on Fridays and Saturdays. Consider setting daily spending limits for weekends.",
-    impact: "Could save $200/month",
+    impact: "Could save P200/month",
     actionable: true,
   },
   {
     title: "Subscription Analysis",
     description:
-      "You have 8 active subscriptions totaling $127/month. 3 haven't been used in the last 30 days.",
-    impact: "Could save $45/month",
+      "You have 8 active subscriptions totaling P127/month. 3 haven't been used in the last 30 days.",
+    impact: "Could save P45/month",
     actionable: true,
   },
   {
@@ -260,44 +266,44 @@ const Insights = () => {
                     <Line
                       type="monotone"
                       dataKey="food"
-                      stroke="#ef4444"
+                      stroke="#ff9b00"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="transport"
-                      stroke="#f59e0b"
+                      stroke="#044e77"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="shopping"
-                      stroke="#8b5cf6"
+                      stroke="#8da0a5"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="entertainment"
-                      stroke="#06b6d4"
+                      stroke="#00a37d"
                       strokeWidth={2}
                     />
                   </LineChart>
                 </ResponsiveContainer>
                 <div className="flex flex-wrap gap-4 mt-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-[#ff9b00] rounded-full"></div>
                     <span className="text-sm text-slate-600">Food</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-[#044e77] rounded-full"></div>
                     <span className="text-sm text-slate-600">Transport</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-[#8da0a5] rounded-full"></div>
                     <span className="text-sm text-slate-600">Shopping</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-cyan-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-[#00a37d] rounded-full"></div>
                     <span className="text-sm text-slate-600">
                       Entertainment
                     </span>
@@ -372,7 +378,7 @@ const Insights = () => {
                         <YAxis hide />
                         <Bar
                           dataKey="food"
-                          fill="#ef4444"
+                          fill="#ff9b00"
                           radius={[4, 4, 0, 0]}
                         />
                       </BarChart>
@@ -383,7 +389,7 @@ const Insights = () => {
                       <h5 className="font-medium text-slate-900">
                         Average per meal
                       </h5>
-                      <p className="text-2xl font-bold text-navy-900">$18.50</p>
+                      <p className="text-2xl font-bold text-navy-900">P38.50</p>
                       <p className="text-sm text-slate-600">
                         15% higher than city average
                       </p>
@@ -396,7 +402,7 @@ const Insights = () => {
                         Saturday
                       </p>
                       <p className="text-sm text-slate-600">
-                        $67 average weekend spending
+                        P67 average weekend spending
                       </p>
                     </div>
                   </div>
@@ -420,7 +426,7 @@ const Insights = () => {
                         <YAxis hide />
                         <Bar
                           dataKey="transport"
-                          fill="#f59e0b"
+                          fill="#044e77"
                           radius={[4, 4, 0, 0]}
                         />
                       </BarChart>
@@ -431,7 +437,7 @@ const Insights = () => {
                       <h5 className="font-medium text-slate-900">
                         Average Trip Cost
                       </h5>
-                      <p className="text-2xl font-bold text-navy-900">$12.00</p>
+                      <p className="text-2xl font-bold text-navy-900">P52.00</p>
                       <p className="text-sm text-slate-600">
                         Consider public transport options.
                       </p>
@@ -467,7 +473,7 @@ const Insights = () => {
                         <YAxis hide />
                         <Bar
                           dataKey="shopping"
-                          fill="#8b5cf6"
+                          fill="#8da0a5"
                           radius={[4, 4, 0, 0]}
                         />
                       </BarChart>
@@ -478,7 +484,9 @@ const Insights = () => {
                       <h5 className="font-medium text-slate-900">
                         Average Transaction
                       </h5>
-                      <p className="text-2xl font-bold text-navy-900">$55.00</p>
+                      <p className="text-2xl font-bold text-navy-900">
+                        P375.00
+                      </p>
                       <p className="text-sm text-slate-600">
                         Larger purchases drive up spending.
                       </p>
@@ -514,7 +522,7 @@ const Insights = () => {
                         <YAxis hide />
                         <Bar
                           dataKey="entertainment"
-                          fill="#06b6d4"
+                          fill="#00a37d"
                           radius={[4, 4, 0, 0]}
                         />
                       </BarChart>
@@ -525,7 +533,9 @@ const Insights = () => {
                       <h5 className="font-medium text-slate-900">
                         Movie Tickets & Streaming
                       </h5>
-                      <p className="text-2xl font-bold text-navy-900">$45.00</p>
+                      <p className="text-2xl font-bold text-navy-900">
+                        P225.00
+                      </p>
                       <p className="text-sm text-slate-600">
                         Check for bundled streaming services.
                       </p>
@@ -534,7 +544,9 @@ const Insights = () => {
                       <h5 className="font-medium text-slate-900">
                         Dining Out & Social
                       </h5>
-                      <p className="text-2xl font-bold text-navy-900">$75.00</p>
+                      <p className="text-2xl font-bold text-navy-900">
+                        P214.00
+                      </p>
                       <p className="text-sm text-slate-600">
                         Cook more at home for savings.
                       </p>

@@ -166,7 +166,7 @@ const SavingsGoals = () => {
           </div>
           <Dialog open={newGoalOpen} onOpenChange={setNewGoalOpen}>
             <DialogTrigger asChild>
-              <Button className="gradient-navy text-white">
+              <Button className="gradient-navy text-black">
                 <Plus className="w-4 h-4 mr-2" />
                 New Goal
               </Button>
@@ -202,7 +202,7 @@ const SavingsGoals = () => {
                   </div>
                   <div>
                     <Label htmlFor="target-amount">Target Amount</Label>
-                    <Input id="target-amount" type="number" placeholder="$0" />
+                    <Input id="target-amount" type="number" placeholder="P0" />
                   </div>
                   <div>
                     <Label htmlFor="monthly-contribution">
@@ -211,7 +211,7 @@ const SavingsGoals = () => {
                     <Input
                       id="monthly-contribution"
                       type="number"
-                      placeholder="$0"
+                      placeholder="P0"
                     />
                   </div>
                   <div>
@@ -219,7 +219,7 @@ const SavingsGoals = () => {
                     <Input id="deadline" type="date" />
                   </div>
                 </div>
-                <Button className="w-full gradient-navy text-white">
+                <Button className="w-full gradient-navy text-black">
                   Create Goal
                 </Button>
               </div>
@@ -233,8 +233,8 @@ const SavingsGoals = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <p className="text-sm text-slate-600">Total Saved</p>
-                <p className="text-3xl font-bold text-navy-900">$13,200</p>
-                <p className="text-sm text-green-600">+$800 this month</p>
+                <p className="text-3xl font-bold text-navy-900">P13,200</p>
+                <p className="text-sm text-green-600">+P800 this month</p>
               </div>
               <div className="text-center">
                 <p className="text-sm text-slate-600">Total Goals</p>
@@ -243,7 +243,7 @@ const SavingsGoals = () => {
               </div>
               <div className="text-center">
                 <p className="text-sm text-slate-600">Monthly Savings</p>
-                <p className="text-3xl font-bold text-navy-900">$1,000</p>
+                <p className="text-3xl font-bold text-navy-900">P1,000</p>
                 <p className="text-sm text-gold-600">23% of income</p>
               </div>
               <div className="text-center">
@@ -313,10 +313,10 @@ const SavingsGoals = () => {
                   <div>
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-slate-600">
-                        ${goal.current.toLocaleString()}
+                        P{goal.current.toLocaleString()}
                       </span>
                       <span className="font-medium text-navy-900">
-                        ${goal.target.toLocaleString()}
+                        P{goal.target.toLocaleString()}
                       </span>
                     </div>
                     <Progress value={progress} className="h-3" />
@@ -329,7 +329,7 @@ const SavingsGoals = () => {
                     <div>
                       <p className="text-slate-600">Monthly</p>
                       <p className="font-medium text-navy-900">
-                        ${goal.monthlyContribution}
+                        P{goal.monthlyContribution}
                       </p>
                     </div>
                     <div>
@@ -363,7 +363,7 @@ const SavingsGoals = () => {
         </div>
 
         {/* Achievements */}
-        <Card className="shadow-soft">
+        <Card className="shadow-soft bg-neutral-300">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Trophy className="w-5 h-5 text-gold-600" />
@@ -411,7 +411,7 @@ const SavingsGoals = () => {
                   <p
                     className={cn(
                       "text-sm",
-                      achievement.unlocked ? "text-slate-600" : "text-slate-400"
+                      achievement.unlocked ? "text-slate-900" : "text-slate-800"
                     )}
                   >
                     {achievement.description}
@@ -423,7 +423,7 @@ const SavingsGoals = () => {
         </Card>
 
         {/* Tips for Better Saving */}
-        <Card className="shadow-soft gradient-navy text-white">
+        <Card className="shadow-soft gradient-navy text-black">
           <CardContent className="p-6">
             <h3 className="text-xl font-bold mb-4">💡 Smart Saving Tips</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
